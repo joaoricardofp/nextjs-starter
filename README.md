@@ -14,7 +14,6 @@ A simple Next.js starter template that provides a basic authentication setup usi
 - **Styling:** Tailwind CSS, shadcn/ui
 - **Forms & Validation:** React Hook Form, Zod
 - **Email:** Resend
-- **Animations:** Framer Motion
 
 ## Features
 
