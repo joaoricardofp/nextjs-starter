@@ -1,5 +1,5 @@
-import { Heading, Link, Text } from '@/components/ui/typography';
-import { GalleryVerticalEndIcon } from 'lucide-react';
+import { Heading, Link, Text } from "@/components/ui/typography";
+import { GalleryVerticalEndIcon } from "lucide-react";
 
 export default function AuthLayout({
   children,
