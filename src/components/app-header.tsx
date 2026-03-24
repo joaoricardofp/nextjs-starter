@@ -27,12 +27,12 @@ export default function AppHeader() {
           <Breadcrumb>
             <BreadcrumbList>
               {breadcrumbs.map((breadcrumb, index) => (
-                <BreadcrumbItem key={index}>
+                <BreadcrumbItem key={`${breadcrumb.href}-${index}`}>
                   {breadcrumb.isLast ? (
                     <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
                   ) : (
                     <>
-                      <BreadcrumbLink href={breadcrumb.href ?? "#"}>
+                      <BreadcrumbLink href={breadcrumb.href}>
                         {breadcrumb.label}
                       </BreadcrumbLink>
                       <BreadcrumbSeparator className="hidden md:block" />
@@ -51,15 +51,15 @@ export default function AppHeader() {
 function generateBreadcrumbs(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
 
-  return segments.map((segment, idenx) => {
-    const href = `/${segments.slice(0, idenx + 1).join("/")}`;
+  return segments.map((segment, index) => {
+    const href = `/${segments.slice(0, index + 1).join("/")}`;
 
     return {
       label: decodeURIComponent(segment)
         .replace(/-/g, " ")
         .replace(/\b\w/g, (char) => char.toUpperCase()),
       href,
-      isLast: idenx === segments.length - 1,
+      isLast: index === segments.length - 1,
     };
   });
 }
