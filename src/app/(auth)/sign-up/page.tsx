@@ -1,18 +1,19 @@
-'use client';
+"use client";
 
-import AuthLayout from '@/layout/auth-layout';
-import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/typography';
-import z from 'zod';
-import { useTransition } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { authClient } from '@/lib/auth-client';
-import { gooeyToast } from '@/components/ui/goey-toaster';
-import { Spinner } from '@/components/ui/spinner';
-import { useRouter, useSearchParams } from 'next/navigation';
+import AuthLayout from "@/layout/auth-layout";
+import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Link } from "@/components/ui/typography";
+import z from "zod";
+import { useTransition } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { authClient } from "@/lib/auth-client";
+import { gooeyToast } from "@/components/ui/goey-toaster";
+import { Spinner } from "@/components/ui/spinner";
+import { useRouter, useSearchParams } from "next/navigation";
+import { InputPassword } from "@/components/ui/input-password";
 
 const schema = z.object({
   name: z.string().min(3).max(100),
@@ -30,9 +31,9 @@ export default function RegisterPage() {
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
     },
   });
 
@@ -42,15 +43,15 @@ export default function RegisterPage() {
         email: data.email,
         name: data.name,
         password: data.password,
-        callbackURL: '/dashboard',
+        callbackURL: "/dashboard",
         fetchOptions: {
           query: params ? Object.fromEntries(params.entries()) : undefined,
           onError: (ctx) => {
             gooeyToast.error(ctx.error.message);
           },
           onSuccess: () => {
-            gooeyToast.success('Successfully signed up');
-            router.push('/dashboard');
+            gooeyToast.success("Successfully signed up");
+            router.push("/dashboard");
           },
         },
       });
@@ -62,7 +63,7 @@ export default function RegisterPage() {
       title="Create an account"
       description={
         <>
-          Already have an account? <Link href="/login">Sign in</Link>
+          Already have an account? <Link href="/sign-in">Sign in</Link>
         </>
       }
     >
@@ -74,7 +75,7 @@ export default function RegisterPage() {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="name">Name</FieldLabel>
-                
+
                 <Input
                   {...field}
                   id="name"
@@ -115,10 +116,8 @@ export default function RegisterPage() {
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="password">Password</FieldLabel>
 
-                <Input
+                <InputPassword
                   {...field}
-                  id="password"
-                  type="password"
                   placeholder="Password"
                   aria-invalid={fieldState.invalid}
                 />
