@@ -1,13 +1,30 @@
-import { betterAuth } from 'better-auth';
-import { Pool } from 'pg';
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "@better-auth/drizzle-adapter";
+import { bearer, jwt } from "better-auth/plugins";
+import { db } from "./db";
+import * as authSchema from "@/db/auth-schema";
 
 export const auth = betterAuth({
-  database: new Pool({
-    connectionString: process.env.DATABASE_URL,
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema: {
+      ...authSchema,
+    },
   }),
+
+  plugins: [
+    bearer(),
+    jwt({
+      jwt: {
+        issuer: process.env.BETTER_AUTH_URL!,
+      },
+    }),
+  ],
+
   emailAndPassword: {
     enabled: true,
   },
+
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
